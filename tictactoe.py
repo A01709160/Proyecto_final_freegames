@@ -12,6 +12,21 @@ from turtle import *
 
 from freegames import line
 
+# Combinaciones posibles de coordenadas (x, y) en el tablero
+WIN_COMBOS = [
+    # Horizontales
+    [(-200, 67), (-67, 67), (67, 67)],
+    [(-200, -67), (-67, -67), (67, -67)],
+    [(-200, -200), (-67, -200), (67, -200)],
+    # Verticales
+    [(-200, 67), (-200, -67), (-200, -200)],
+    [(-67, 67), (-67, -67), (-67, -200)],
+    [(67, 67), (67, -67), (67, -200)],
+    # Diagonales
+    [(-200, 67), (-67, -67), (67, -200)],
+    [(-200, -200), (-67, -67), (67, 67)],
+]
+
 
 def grid():
     """Draw tic-tac-toe grid."""
@@ -47,6 +62,16 @@ state = {'player': 0, 'occupied':{}}
 players = [drawx, drawo]
 
 
+def check_win(player):
+    """Verificar si el jugador actual completó una línea."""
+    for combo in WIN_COMBOS:
+        if all(
+            state['occupied'].get(pos) == player for pos in combo
+        ):
+            return True
+    return False
+
+
 def tap(x, y):
     """Draw X or O in tapped square."""
     x = floor(x)
@@ -56,15 +81,21 @@ def tap(x, y):
     if (x, y) in state ['occupied']:
         return
 
-    #registro de casillas como ocupadas
-    state['occupied'][(x, y)] = state['player']
-    
     player = state['player']
+    state['occupied'][(x, y)] = player
+
     draw = players[player]
     draw(x, y)
     update()
-    state['player'] = not player
 
+    # Validar si el jugador actual ganó
+    if check_win(player):
+        symbol = 'X' if player == 0 else 'O'
+        print(f"¡El jugador {symbol} ha ganado!")
+        return
+
+
+    state['player'] = not player
 
 setup(420, 420, 370, 0)
 hideturtle()
