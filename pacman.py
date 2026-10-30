@@ -19,11 +19,14 @@ path = Turtle(visible=False)
 writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
+# en la variable ghosts se representa la dirección y velocidad de cada uno a través del segundo vector
+# por lo tanto, cambié el 5 por 10, para que así los fantasmas avancen 10 unidad por movimiento en lugar de 5
+# con este cambio los fantasmas tendrán el doble de velocidad
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+    [vector(-180, 160), vector(10, 0)],
+    [vector(-180, -160), vector(0, 10)],
+    [vector(100, 160), vector(0, -10)],
+    [vector(100, -160), vector(-10, 0)],
 ]
 # fmt: off
 # el tablero está definido en la variable tiles
@@ -154,11 +157,15 @@ def move():
         if valid(point + course):
             point.move(course)
         else:
+            #También se hicieron cambios aquí de 5 a 10, para que cuando un fantasma encuentre una pared
+            #y el programa seleccione una nueva dirección aleatoria, se mantenga la velocidad de 10 unidades 
+            #después de cambiar de dirección, si dejaramos los valores anteriores, al cambiar de dirección el fantasma
+            #volvería a moverse en su "velocidad original"
             options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
+                vector(10, 0),
+                vector(-10, 0),
+                vector(0, 10),
+                vector(0, -10),
             ]
             plan = choice(options)
             course.x = plan.x
