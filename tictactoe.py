@@ -42,8 +42,8 @@ def floor(value):
     """Round value down to grid with square size 133."""
     return ((value + 200) // 133) * 133 - 200
 
-
-state = {'player': 0}
+#Agregar registro de casillas en state
+state = {'player': 0, 'occupied':{}}
 players = [drawx, drawo]
 
 
@@ -51,6 +51,14 @@ def tap(x, y):
     """Draw X or O in tapped square."""
     x = floor(x)
     y = floor(y)
+
+    #Validar si la casilla ya esta ocupada
+    if (x, y) in state ['occupied']:
+        return
+
+    #registro de casillas como ocupadas
+    state['occupied'][(x, y)] = state['player']
+    
     player = state['player']
     draw = players[player]
     draw(x, y)
