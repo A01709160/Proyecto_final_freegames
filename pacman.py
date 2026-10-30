@@ -92,6 +92,22 @@ def valid(point):
 
     return point.x % 20 == 0 or point.y % 20 == 0
 
+def alimento(x, y):
+    #Se creó una nueva función para dibujar alimento rosa en forma de diamante.
+    path.up()
+    path.goto(x + 10, y + 15)
+    #Aquí se define el color como rosa
+    path.color('pink')
+    path.begin_fill()
+    #Con estos cuatro .goto se forma el diamante
+    path.goto(x + 15, y + 10)
+    path.goto(x + 10, y + 5)
+    path.goto(x + 5, y + 10)
+    path.goto(x + 10, y + 15)
+
+    path.end_fill()
+    #Se vuelve a colorear el camino como azul, sino se volvería rosa
+    path.color('blue')
 
 def world():
     """Draw world using path."""
@@ -107,10 +123,9 @@ def world():
             square(x, y)
 
             if tile == 1:
-                path.up()
-                path.goto(x + 10, y + 10)
-                path.dot(2, 'white')
-
+                #ahora en lugar de mandar a llamar a dot, white
+                # llamamos a la función alimento
+                alimento(x, y)
 
 def move():
     """Move pacman and all ghosts."""
