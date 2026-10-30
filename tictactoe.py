@@ -93,7 +93,12 @@ def tap(x, y):
         symbol = 'X' if player == 0 else 'O'
         print(f"¡El jugador {symbol} ha ganado!")
         return
-
+    
+    # Validar empate (9 casillas ocupadas)
+    if len(state['occupied']) == 9:
+        print("¡Es un empate!")
+        onscreenclick(None)  # Bloquea mas clics
+        return
 
     state['player'] = not player
 
