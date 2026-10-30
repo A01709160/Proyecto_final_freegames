@@ -26,6 +26,10 @@ ghosts = [
     [vector(100, -160), vector(-5, 0)],
 ]
 # fmt: off
+# el tablero está definido en la variable tiles
+# el 0 representa una pared o espacio donde no se puede caminar
+# el 1 representa un camino donde hay alimento
+# así que se cambiaron 0 por 1 y 1 por 0 para generar otro tablero
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
