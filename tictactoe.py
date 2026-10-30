@@ -12,7 +12,7 @@ from turtle import *
 
 from freegames import line
 
-# Combinaciones posibles de coordenadas (x, y) en el tablero
+# Combinaciones posibles de coordenadas (x, y) en el tablero necesarias para ganar
 WIN_COMBOS = [
     # Horizontales
     [(-200, 66), (-67, 66), (66, 66)],
@@ -28,6 +28,7 @@ WIN_COMBOS = [
 ]
 
 
+# Dibujar el tablero de juego 3x3.
 def grid():
     """Draw tic-tac-toe grid."""
     line(-67, 200, -67, -200)
@@ -35,7 +36,7 @@ def grid():
     line(-200, -67, 200, -67)
     line(-200, 67, 200, 67)
 
-
+# Dibujar el símbolo X con color azul y grosor de 5px
 def drawx(x, y):
     """Draw X player."""
     color('blue')
@@ -43,6 +44,7 @@ def drawx(x, y):
     line(x + 20, y + 20, x + 113, y + 113)
     line(x + 20, y + 113, x + 113, y + 20)
 
+# Dibujar el símbolo O con color rojo y grosor de 5px
 def drawo(x, y):
     """Draw O player."""
     color('red')
@@ -52,18 +54,17 @@ def drawo(x, y):
     down()
     circle(52)
 
-
+# Redondear la coordenada al centro de la casilla correspondiente
 def floor(value):
     """Round value down to grid with square size 133."""
     return ((value + 200) // 133) * 133 - 200
 
-#Agregar registro de casillas en state
+# Agregar registro de casillas en state
 state = {'player': 0, 'occupied':{}}
 players = [drawx, drawo]
 
-
+# Verificar si el jugador activo completó alguna combinación ganadora.
 def check_win(player):
-    """Verificar si el jugador actual completó una línea."""
     for combo in WIN_COMBOS:
         if all(
             state['occupied'].get(pos) == player for pos in combo
@@ -71,16 +72,17 @@ def check_win(player):
             return True
     return False
 
-
+# Manejar los clics en el tablero, validar jugadas y revisar estado del juego
 def tap(x, y):
     """Draw X or O in tapped square."""
     x = floor(x)
     y = floor(y)
 
-    #Validar si la casilla ya esta ocupada
+# Prevenir sobreescritura si la casilla ya fue jugada
     if (x, y) in state ['occupied']:
         return
-
+    
+# Registrar tiro y dibujar figura del jugador actual
     player = state['player']
     state['occupied'][(x, y)] = player
 
@@ -88,18 +90,19 @@ def tap(x, y):
     draw(x, y)
     update()
 
-    # Validar si el jugador actual ganó
+# Evaluar victoria del jugador actual
     if check_win(player):
         symbol = 'X' if player == 0 else 'O'
         print(f"¡El jugador {symbol} ha ganado!")
         return
     
-    # Validar empate (9 casillas ocupadas)
+# Evaluar empate si las 9 casillas están llenas
     if len(state['occupied']) == 9:
         print("¡Es un empate!")
         onscreenclick(None)  # Bloquea mas clics
         return
 
+# Alternar turno entre 0 (X) y 1 (O)
     state['player'] = not player
 
 setup(420, 420, 370, 0)
