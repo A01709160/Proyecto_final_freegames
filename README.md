@@ -16,3 +16,21 @@ Para hacer esto se creó una nueva función que dibuja diamantes rosas (alimento
 ### 3. Cambiar la velocidad de los fantasmas, ahora avanzan al doble de su velocidad, pasaron de avanzar 5 unidades a 10 unidades.
      
 Se realizaron dos cambios en las variables: ghosts y en options, se cambió el valor de 5 o -5 que correspondía a la velocidad, en cada uno de los vectores por un 10 o -10 según correspondía.
+
+## Segundo juego modificado: Tictactoe
+Modificado por: A01709160 - Emilie García Peschaud 
+
+## Cambios realizados
+### 1. Personalización estética de símbolos
+   - Se asignó el color azul a la "X" y el color rojo a la "O".
+   - Se incrementó el grosor del trazo a 5px.
+   - Se ajustó el dibujado y centrado de las figuras dentro de las casillas.
+
+### 2. Validación de casillas ocupadas
+   - Se incorporó la estructura `state['occupied']` para registrar las jugadas y prevenir que los jugadores sobreescriban una casilla ocupada o pierdan su turno por clics accidentales.
+
+### 3. Lógica de victoria y empate
+   - Se definieron las combinaciones ganadoras (`WIN_COMBOS`) ajustadas a las coordenadas devueltas por la función `floor()`.
+   - Se implementó la función `check_win()` para determinar automáticamente al ganador al completar una línea.
+   - Se agregó la detección de empate al completar 9 tiros sin ganador y se bloqueó el tablero al finalizar la partida utilizando `onscreenclick(None)`.
+
