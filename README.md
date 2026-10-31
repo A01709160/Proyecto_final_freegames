@@ -27,10 +27,10 @@ Modificado por: A01709160 - Emilie García Peschaud
    - Se ajustó el dibujado y centrado de las figuras dentro de las casillas.
 
 ### 2. Validación de casillas ocupadas
-   - Se incorporó la estructura `state['occupied']` para registrar las jugadas y prevenir que los jugadores sobreescriban una casilla ocupada o pierdan su turno por clics accidentales.
+   - Se incorporó la estructura state['occupied'] para registrar las jugadas y prevenir que los jugadores sobreescriban una casilla ocupada o pierdan su turno por clics accidentales.
 
 ### 3. Lógica de victoria y empate
-   - Se definieron las combinaciones ganadoras (`WIN_COMBOS`) ajustadas a las coordenadas devueltas por la función `floor()`.
-   - Se implementó la función `check_win()` para determinar automáticamente al ganador al completar una línea.
-   - Se agregó la detección de empate al completar 9 tiros sin ganador y se bloqueó el tablero al finalizar la partida utilizando `onscreenclick(None)`.
+   - Se definieron las combinaciones ganadoras (WIN_COMBOS) ajustadas a las coordenadas devueltas por la función floor().
+   - Se implementó la función check_win() para determinar automáticamente al ganador al completar una línea.
+   - Se agregó la detección de empate al completar 9 tiros sin ganador y se bloqueó el tablero al finalizar la partida utilizando onscreenclick(None).
 
