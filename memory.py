@@ -1,3 +1,4 @@
+
 """Memory, puzzle game of number pairs.
 
 Exercises:
@@ -21,7 +22,7 @@ hide = [True] * 64
 
 
 def square(x, y):
-    """Draw white square with black outline at (x, y)."""
+    """Dibuja un cuadrado blanco con contorno negro."""
     up()
     goto(x, y)
     down()
@@ -34,17 +35,22 @@ def square(x, y):
 
 
 def index(x, y):
-    """Convert (x, y) coordinates to tiles index."""
+    """Convierte las coordenadas (x, y) en el índice de una casilla."""
     return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
 
 def xy(count):
-    """Convert tiles count to (x, y) coordinates."""
+    """Convierte el índice de una casilla en coordenadas (x, y)."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 
 def tap(x, y):
-    """Update mark and hidden tiles based on tap."""
+    """Actualiza la selección y las casillas descubiertas."""
+
+    # Ignora los clics que se realizan fuera del tablero.
+    if not (-200 <= x < 200 and -200 <= y < 200):
+        return
+
     spot = index(x, y)
     mark = state['mark']
 
@@ -57,7 +63,7 @@ def tap(x, y):
 
 
 def draw():
-    """Draw image and tiles."""
+    """Dibuja la imagen y las casillas del tablero."""
     clear()
     goto(0, 0)
     shape(car)
@@ -89,3 +95,4 @@ tracer(False)
 onscreenclick(tap)
 draw()
 done()
+
