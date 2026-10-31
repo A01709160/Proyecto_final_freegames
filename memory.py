@@ -1,13 +1,9 @@
 
-"""Memory, puzzle game of number pairs.
+"""Memory, juego de encontrar parejas de números.
 
-Exercises:
-
-1. Count and print how many taps occur.
-2. Decrease the number of tiles to a 4x4 grid.
-3. Detect when all tiles are revealed.
-4. Center single-digit tile.
-5. Use letters instead of tiles.
+Modificaciones:
+1. Validar los clics fuera del tablero.
+2. Contar y mostrar las parejas descubiertas.
 """
 
 from random import *
@@ -19,6 +15,9 @@ car = path('car.gif')
 tiles = list(range(32)) * 2
 state = {'mark': None}
 hide = [True] * 64
+
+# Contador de parejas descubiertas.
+parejas_encontradas = 0
 
 
 def square(x, y):
@@ -46,6 +45,7 @@ def xy(count):
 
 def tap(x, y):
     """Actualiza la selección y las casillas descubiertas."""
+    global parejas_encontradas
 
     # Ignora los clics que se realizan fuera del tablero.
     if not (-200 <= x < 200 and -200 <= y < 200):
@@ -54,16 +54,30 @@ def tap(x, y):
     spot = index(x, y)
     mark = state['mark']
 
-    if mark is None or mark == spot or tiles[mark] != tiles[spot]:
+    # Evita seleccionar una casilla que ya fue descubierta.
+    if not hide[spot]:
+        return
+
+    if mark is None:
         state['mark'] = spot
-    else:
+
+    elif mark == spot:
+        return
+
+    elif tiles[mark] == tiles[spot]:
         hide[spot] = False
         hide[mark] = False
         state['mark'] = None
 
+        # Incrementa el contador al encontrar una pareja.
+        parejas_encontradas += 1
+
+    else:
+        state['mark'] = spot
+
 
 def draw():
-    """Dibuja la imagen y las casillas del tablero."""
+    """Dibuja la imagen, las casillas y el contador."""
     clear()
     goto(0, 0)
     shape(car)
@@ -83,16 +97,24 @@ def draw():
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
 
+    # Muestra las parejas descubiertas encima del tablero.
+    up()
+    goto(-190, 205)
+    color('black')
+    write(
+        f'Parejas encontradas: {parejas_encontradas} / 32',
+        font=('Arial', 12, 'normal')
+    )
+
     update()
     ontimer(draw, 100)
 
 
 shuffle(tiles)
-setup(420, 420, 370, 0)
+setup(420, 460, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
 onscreenclick(tap)
 draw()
 done()
-
