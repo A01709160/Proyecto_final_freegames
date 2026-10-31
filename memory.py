@@ -4,6 +4,7 @@
 Modificaciones:
 1. Validar los clics fuera del tablero.
 2. Contar y mostrar las parejas descubiertas.
+3. Detectar cuando todas las parejas han sido descubiertas.
 """
 
 from random import *
@@ -18,6 +19,9 @@ hide = [True] * 64
 
 # Contador de parejas descubiertas.
 parejas_encontradas = 0
+
+# Indica si el jugador ya encontró todas las parejas.
+juego_terminado = False
 
 
 def square(x, y):
@@ -45,7 +49,11 @@ def xy(count):
 
 def tap(x, y):
     """Actualiza la selección y las casillas descubiertas."""
-    global parejas_encontradas
+    global parejas_encontradas, juego_terminado
+
+    # Evita jugar después de encontrar todas las parejas.
+    if juego_terminado:
+        return
 
     # Ignora los clics que se realizan fuera del tablero.
     if not (-200 <= x < 200 and -200 <= y < 200):
@@ -72,12 +80,16 @@ def tap(x, y):
         # Incrementa el contador al encontrar una pareja.
         parejas_encontradas += 1
 
+        # Comprueba si todas las parejas fueron descubiertas.
+        if parejas_encontradas == 32:
+            juego_terminado = True
+
     else:
         state['mark'] = spot
 
 
 def draw():
-    """Dibuja la imagen, las casillas y el contador."""
+    """Dibuja la imagen, las casillas y los mensajes."""
     clear()
     goto(0, 0)
     shape(car)
@@ -105,6 +117,15 @@ def draw():
         f'Parejas encontradas: {parejas_encontradas} / 32',
         font=('Arial', 12, 'normal')
     )
+
+    # Muestra el mensaje cuando se completa el juego.
+    if juego_terminado:
+        goto(-110, -230)
+        color('green')
+        write(
+            '¡Felicidades! ¡Ganaste!',
+            font=('Arial', 18, 'bold')
+        )
 
     update()
     ontimer(draw, 100)
